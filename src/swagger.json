@@ -1,0 +1,314 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API para controle de estoque TI",
+    "description": "Api para fins de estudo e aprimoramento de conhecimentos alem de utildade para o controle de estoque de equipamento TI",
+    "contact": {
+      "email": "leonardo.b.lima1@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "Api de desenvolvimento"
+    }
+  ],
+  "paths": {
+    "/equipamento": {
+      "post": {
+        "summary": "Cadastro de equipamento",
+        "description": "Rota para cadastro do equipamento",
+        "tags": ["Equipamento"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Equipamento"
+              },
+              "examples": {
+                "equipamento": {
+                  "value": {
+                    "nome": "Optiplex 500",
+                    "modelo": "Dell",
+                    "num_serie": "004545454d",
+                    "num_patrimonio": "865666",
+                    "num_os": "12345",
+                    "mac": "00:1B:44:11:3A:B7",
+                    "data_transferencia": "12:44:11.539629+00",
+                    "cod_barras": "5655646556532346",
+                    "tipo_equipamento": "DESKTOP",
+                    "observacoes": "isso e apenas um teste",
+                    "estado": "BACKUP"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/EquipamentoRetorno"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listagem de equipamentos",
+        "description": "Rota para listagem dos equipamentos",
+        "tags": ["Equipamento"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "items": {
+                        "$ref": "#/components/schemas/EquipamentoRetorno"
+                      }
+                    },
+                    "pagination": {
+                      "items": {
+                        "$ref": "#/components/schemas/Pagination"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/equipamento/{id}": {
+      "get": {
+        "summary": "Busca equipamento por id",
+        "description": "rota para busca do equipamento por id",
+        "tags": ["Equipamento"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id para ser buscado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/EquipamentoRetorno"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete equipamento por id",
+        "description": "rota para deletar o equipamento por id",
+        "tags": ["Equipamento"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id para ser buscado",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Equipamento": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "required": true
+          },
+          "modelo": {
+            "type": "string",
+            "required": true
+          },
+          "num_serie": {
+            "type": "string"
+          },
+          "num_patrimonio": {
+            "type": "string"
+          },
+          "num_os": {
+            "type": "string"
+          },
+          "mac": {
+            "type": "string"
+          },
+          "cod_barras": {
+            "type": "string"
+          },
+          "tipo_equipamento": {
+            "type": "string",
+            "enum": ["DESKTOP", "NOTEBOOK", "SWITCH", "MONITOR", "PERIFERICO"]
+          },
+          "observacoes": {
+            "type": "string"
+          },
+          "data_transferencia": {
+            "type": "string",
+            "format": "date"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "EM_USO",
+              "BACKUP",
+              "COM_DEFEITO",
+              "EM_MANUTENCAO",
+              "TRANSFERIDO"
+            ]
+          },
+          "documentos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Documento"
+            }
+          }
+        }
+      },
+      "EquipamentoRetorno": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "modelo": {
+            "type": "string"
+          },
+          "num_serie": {
+            "type": "string"
+          },
+          "num_patrimonio": {
+            "type": "string"
+          },
+          "num_os": {
+            "type": "string"
+          },
+          "mac": {
+            "type": "string"
+          },
+          "cod_barras": {
+            "type": "string"
+          },
+          "tipo_equipamento": {
+            "type": "string",
+            "enum": ["DESKTOP", "NOTEBOOK", "SWITCH", "MONITOR", "PERIFERICO"]
+          },
+          "observacoes": {
+            "type": "string"
+          },
+          "data_transferencia": {
+            "type": "string",
+            "format": "date"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "EM_USO",
+              "BACKUP",
+              "COM_DEFEITO",
+              "EM_MANUTENCAO",
+              "TRANSFERIDO"
+            ]
+          },
+          "documentos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Documento"
+            }
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Documento": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "required": true
+          },
+          "file": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number"
+          },
+          "size": {
+            "type": "number"
+          },
+          "numberOfPages": {
+            "type": "number"
+          },
+          "numberOfItems": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

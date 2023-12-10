@@ -1,0 +1,15 @@
+export enum EstadoEquipamentoEnum {
+  EM_USO = 'EM_USO',
+  BACKUP = 'BACKUP',
+  COM_DEFEITO = 'COM_DEFEITO',
+  EM_MANUTENCAO = 'EM_MANUTENCAO',
+  TRANSFERIDO = 'TRANSFERIDO',
+}
+
+export enum TipoEquipamentoEnum {
+  DESKTOP = 'DESKTOP',
+  NOTEBOOK = 'NOTEBOOK',
+  SWITCH = 'SWITCH',
+  MONITOR = 'MONITOR',
+  PERIFERICO = 'PERIFERICO',
+}
