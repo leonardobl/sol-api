@@ -1,7 +1,7 @@
 import swaggerUi from 'swagger-ui-express';
 import express from 'express';
 import cors from 'cors';
-import { routesEquipamentos } from './routes/equipamento.routes';
+import { IhsRoutes } from './routes/Ihs.routes';
 import swaggerDoc from './swagger.json';
 
 export const app = express();
@@ -14,4 +14,4 @@ app.use(
   swaggerUi.setup(swaggerDoc, { explorer: true }),
 );
 
-app.use(routesEquipamentos);
+app.use(IhsRoutes);

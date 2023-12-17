@@ -47,41 +47,4 @@ export class EquipamentoController {
       });
     }
   }
-
-  async findById(req: Request, res: Response) {
-    const { id } = req.params;
-
-    try {
-      const result = await EquipamentoRepository.findOne({
-        where: { id },
-        relations: ['documentos'],
-      });
-      return res.status(200).json(result);
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ message: 'Internal server error', dataError: error });
-    }
-  }
-
-  async delete(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (!id)
-      return res.status(500).json({
-        message: 'Internal server error',
-        error: `Id = ${id}`,
-      });
-
-    try {
-      const result = await EquipamentoRepository.delete(id);
-
-      return res.status(200).json(result);
-    } catch (error) {
-      return res.status(500).json({
-        message: 'Internal server error',
-        error: error,
-      });
-    }
-  }
 }
