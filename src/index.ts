@@ -24,16 +24,18 @@ const url = 'https://opcoes.net.br/opcoes/bovespa';
   await page.waitForSelector('select[name="IdAcao"]');
 
   await page.click('select[name="IdAcao"]');
-  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowDown', { delay: 500 });
+  await page.keyboard.press('ArrowDown', { delay: 500 });
+  await page.keyboard.press('ArrowDown', { delay: 500 });
   await page.keyboard.press('Enter');
   await page.waitForSelector(
     'button[class="dt-button buttons-excel buttons-html5"]',
   );
   await page.click('button[class="dt-button buttons-excel buttons-html5"]');
 
-  setTimeout(() => {
-    browser.close();
-  }, 2000);
+  // setTimeout(() => {
+  //   browser.close();
+  // }, 2000);
 })();
 
 app.listen(port, () => console.log(`Server on port:${port}`));
