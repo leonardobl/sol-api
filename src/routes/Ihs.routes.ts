@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { EquipamentoController } from '../controllers/EquipamentoController';
 import axios from 'axios';
 import cheerio from 'cheerio';
-import { title } from 'process';
 
 export const IhsRoutes = Router();
 
