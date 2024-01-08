@@ -46,6 +46,7 @@
     "pg": "^8.11.3",
     "proxy-chain": "^2.4.0",
     "puppeteer": "^21.6.1",
+    "puppeteer-cluster": "^0.23.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
