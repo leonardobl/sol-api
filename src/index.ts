@@ -3,14 +3,11 @@ dotenv.config();
 import puppeteer from 'puppeteer-extra';
 import randomUseragent from 'random-useragent';
 import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha';
-
+import { ActionController } from './actions';
 import { env } from './env';
 
 const url = 'https://www3.honda.com.br/corp/ihs/portal/#/login';
-
-function sleep(time: number) {
-  setTimeout(() => {}, time);
-}
+const actions = new ActionController();
 
 (async () => {
   puppeteer.use(
@@ -32,36 +29,34 @@ function sleep(time: number) {
 
   const page = await browser.newPage();
   await page.setUserAgent(randomUseragent.getRandom());
-
   await page.goto(url, { waitUntil: 'networkidle0' });
 
-  const input1 = '#codEmpresa';
-  const input2 = '#codUsuario';
-  const input3 = '#senha';
-  const input4 = '#submitLogin';
-  const btnNext = 'button.btn-default.btn.button-token';
-
-  await page.type(input1, '1014412', { delay: 40 });
+  // await page.type(input1, '1014412', { delay: 40 });
   // await page.type(input2, 'ANTONIO10', { delay: 50 });
   // await page.type(input3, 'Mo,2222222', { delay: 80 });
-  await page.type(input2, 'BENILSON', { delay: 50 });
-  await page.type(input3, 'Mo,4444444', { delay: 80 });
+  // await page.type(input2, 'BENILSON', { delay: 50 });
+  // await page.type(input3, 'Mo,4444444', { delay: 80 });
 
-  await page.waitForSelector(input4);
-  await page.click(input4, { delay: 50 });
+  try {
+    await actions.login({
+      numeroLoja: '1014412',
+      login: 'BENILSON',
+      password: 'Mo,4444444',
+      page,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
-  sleep(1000);
+  await page.waitForSelector('a.a-empresaHonda');
+  const btnConsorcio = await page.$$eval('a.a-empresaHonda', btns =>
+    btns.find(btn => btn.innerText.includes('CONSÓRCIO').click()),
+  );
 
-  await page.solveRecaptchas();
+  // console.log(btnConsorcio);
 
-  sleep(1000);
+  // btnConsorcio.click();
 
-  await page.waitForSelector(btnNext);
-  await page.click(btnNext, { delay: 50 });
-
-  await page.$$eval('.a-empresaHonda', item => {
-    console.log(item);
-  });
-  // await page.waitForSelector('.a-empresaHonda').value
-  await page.click('.a-empresaHonda');
+  // await page.waitForSelector('.a-empresaHonda');
+  // await page.click('.a-empresaHonda');
 })();
